@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import connectDB from "./config/db.js"
 import authRoutes from "./routes/userRoutes.js"
 import postRoutes from "./routes/postRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 import path from "path"
 import { fileURLToPath } from "url";
 
@@ -23,6 +24,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename);
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use("/api/posts", postRoutes)
+app.use("/api/users", userRoutes)
 
 
 app.get("/", (req, res) =>{

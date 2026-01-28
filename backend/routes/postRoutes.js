@@ -1,7 +1,7 @@
 import express from "express"
 import upload from "../middleware/uploadMiddleware.js"
 import protect from "../middleware/authMiddleware.js"
-import { createPost, getFeed} from "../controllers/postController.js"
+import { createPost, getFeed, reactToPost, addComment} from "../controllers/postController.js"
 
 const router = express.Router()
 
@@ -16,5 +16,7 @@ router.post(
 )
 
 router.get("/", protect, getFeed)
+router.post("/:id/react", protect, reactToPost)
+router.post("/:id/comment", protect, addComment)
 
 export default router

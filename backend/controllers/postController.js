@@ -31,3 +31,36 @@ export const getFeed = async (req, res)=>{
     }
 
 }
+
+export const reactToPost = async (req, res) => {
+  const post = await Post.findById(req.params.id);
+
+  const existingReaction = post.reactions.find(
+    (r) => r.user.toString() === req.user._id.toString()
+  );
+
+  if (existingReaction) {
+    existingReaction.emoji = req.body.emoji;
+  } else {
+    post.reactions.push({
+      user: req.user._id,
+      emoji: req.body.emoji,
+    });
+  }
+
+  await post.save();
+  res.json(post);
+};
+
+
+export const addComment = async (req, res) => {
+  const post = await Post.findById(req.params.id);
+
+  post.comments.push({
+    user: req.user._id,
+    text: req.body.text,
+  });
+
+  await post.save();
+  res.json(post);
+};

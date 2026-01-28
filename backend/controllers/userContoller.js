@@ -1,6 +1,5 @@
 import User from "../models/User.js";
 
-// Send Friend Request
 export const sendFriendRequest = async (req, res) => {
   const receiver = await User.findById(req.params.id);
   const sender = await User.findById(req.user._id);
@@ -21,6 +20,10 @@ export const sendFriendRequest = async (req, res) => {
 export const acceptFriendRequest = async (req, res) => {
   const sender = await User.findById(req.params.id);
   const receiver = await User.findById(req.user._id);
+  
+  if (receiver.friends.includes(sender._id)){
+    return res.status(400).json({ message: "Already friends" })
+  }
 
   receiver.friendRequests = receiver.friendRequests.filter(
     (id) => id.toString() !== sender._id.toString()
